@@ -27,6 +27,14 @@ app.use(expressValidator());
 //database connection
 require("./services/connection");
 
+app.use(cors(
+    {
+        origin: [""],
+        methods: ["POST","GET"],
+        credentials: true
+    }
+    ));
+
 //import files
 var publicRoutes = require("./routes/public");
 var login = require("./routes/login");
