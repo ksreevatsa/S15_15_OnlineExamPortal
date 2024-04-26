@@ -9,23 +9,29 @@ import { loginRequestAction } from "../../../redux/actions/loginAction";
 import { connect } from "react-redux";
 
 const useStyles = () => ({
-  inputfield: {
-    display: 'block',
-    margin: '45px',
-    transition: 'all 0.3s ease', // Add transition for all properties
-  },
-  loginbtn: {
-    margin: '0px 40px',
-    transition: 'all 0.3s ease', // Add transition for all properties
-  },
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    backgroundImage: 'url("https://img.freepik.com/free-photo/set-bright-school-stationery-orange-wall_197531-12538.jpg")',
+    backgroundImage: 'url("https://images.squarespace-cdn.com/content/v1/5e888db5701c090efa2df1c2/1590274990960-NL3G054WSP554Y8OQ7EV/image-asset.jpeg")',
     backgroundSize: 'cover',
-    fixed: true
+    backgroundPosition: 'center', // Center the background image
+    position: 'relative', // Ensure positioning context for children
+    overflow: 'hidden', // Hide overflow content
+    '@media (max-width: 600px)': {
+      backgroundSize: '100% auto', // Adjust for smaller screens (e.g., mobile)
+    },
+    '@media (min-width: 601px) and (max-width: 1200px)': {
+      backgroundSize: 'auto 100%', // Adjust for medium-sized screens (e.g., tablets)
+    },
+    '@media (min-width: 1201px)': {
+      backgroundSize: 'cover', // Default cover for larger screens (e.g., desktops)
+    },
+  },
+  loginbtn: {
+    margin: '0px 40px',
+    transition: 'all 0.3s ease', // Add transition for all properties
   },
   form: {
     width: '300px',
@@ -46,7 +52,7 @@ const useStyles = () => ({
     marginBottom: '20px', // Add spacing between title and form
     textAlign: 'center', // Center align the title
   }
-})
+});
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -54,7 +60,7 @@ class LoginForm extends React.Component {
     this.state = {
       email: "",
       password: ""
-    }
+    };
   }
 
   emailInputHandler = (event) => {
@@ -62,19 +68,19 @@ class LoginForm extends React.Component {
       ...this.state,
       email: event.target.value
     });
-  }
+  };
 
   passwordInputHandler = (event) => {
     this.setState({
       ...this.state,
       password: event.target.value
     });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.loginRequestAction(this.state);
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -86,7 +92,7 @@ class LoginForm extends React.Component {
             <Typography variant="h5" className={classes.formTitle}>
               LOGIN
             </Typography>
-            <form className={classes.form} onSubmit={(event) => (this.handleSubmit(event))}>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <TextField
                 variant='outlined'
                 color="primary"
@@ -94,9 +100,8 @@ class LoginForm extends React.Component {
                 label="Email"
                 placeholder='enter email'
                 type='email'
-                error_text=''
                 value={this.state.email}
-                onChange={(event) => (this.emailInputHandler(event))}
+                onChange={this.emailInputHandler}
                 required
               />
               <TextField
@@ -106,9 +111,8 @@ class LoginForm extends React.Component {
                 className={classes.inputfield}
                 placeholder='enter password'
                 type='password'
-                error_text=''
                 value={this.state.password}
-                onChange={(event) => (this.passwordInputHandler(event))}
+                onChange={this.passwordInputHandler}
                 required
               />
               <Button
@@ -123,13 +127,13 @@ class LoginForm extends React.Component {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
   state: state.user
-})
+});
 
 export default withStyles(useStyles)(connect(mapStateToProps, {
   loginRequestAction
